@@ -289,14 +289,8 @@ describe('github plugin test', () => {
                         username,
                         scmContext,
                         sha,
+                        startFrom: 'main',
                         causeMessage: `Merged by ${username}`
-                    });
-                    assert.calledWith(buildFactoryMock.create, {
-                        jobId: 1,
-                        username,
-                        scmContext,
-                        sha,
-                        eventId: eventMock.id
                     });
                 })
             );
@@ -328,14 +322,8 @@ describe('github plugin test', () => {
                         username,
                         scmContext,
                         sha,
+                        startFrom: '~commit',
                         causeMessage: `Merged by ${username}`
-                    });
-                    assert.calledWith(buildFactoryMock.create, {
-                        jobId: 1,
-                        username,
-                        scmContext,
-                        sha,
-                        eventId: eventMock.id
                     });
                 });
             }
@@ -367,7 +355,7 @@ describe('github plugin test', () => {
             });
 
             it('returns 500 when failed', () => {
-                buildFactoryMock.create.rejects(new Error('Failed to start'));
+                eventFactoryMock.create.rejects(new Error('Failed to start'));
 
                 return server.inject(options).then((reply) => {
                     assert.equal(reply.statusCode, 500);
